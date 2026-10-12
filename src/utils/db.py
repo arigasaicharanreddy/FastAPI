@@ -1,16 +1,17 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
-from src.utils.settings import Settings
+from src.utils.settings import settings
 
+Base = declarative_base()
 
-Base = declarative_base() 
+engine = create_engine(settings.DB_CONNECTION)
 
-engine = create_engine(url = Settings.DB_CONNECTION)
-Local_session = sessionmaker(bind = engine)
+Local_session = sessionmaker(bind=engine)
+
 
 def get_db():
     session = Local_session()
-    try : 
+    try:
         yield session
-    finally : 
+    finally:
         session.close()

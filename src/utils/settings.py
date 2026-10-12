@@ -1,12 +1,14 @@
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+# helps to read .env file 
+class Settings(BaseSettings):
+    DB_CONNECTION: str
 
-# Helps to read .env file
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        extra="ignore"
+    )
 
-class Settings(BaseSettings): 
-    
-    model_config = SettingsConfigDict(env_file = ".env", extra = "ignore")
-    
-    DB_CONNECTION : str
-    
+
 settings = Settings()
