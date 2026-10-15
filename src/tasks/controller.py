@@ -25,17 +25,40 @@ def get_tasks(db:Session):
     tasks = db.query(TaskModel).all()
     return {"status": "All Tasks", "data" : tasks}
 
+
 """to retrieve one task """
 
 def get_one_task(task_id : int, db:Session):
     one_task = db.query(TaskModel).get(task_id)
     if not one_task :
-        return HTTPException
+        raise HTTPException(status_code = 404, detail = "Task not found")
     return {"status" : "Task Fetched", "data" : one_task}
     
+    
+""" TO UPDATE TASK """
     
 def update_task(body : TaskSchema, task_id : int, db : Session) :
     one_task = db.query(TaskModel).get(task_id)
     if not one_task :
-        return HTTPException(404)
+        raise HTTPException(status_code = 404, detail = "Task not found")
+        
+    body = body.model_dump()
+    for field, value in body.items():
+        setattr(one_task, field, value)        
+        
+    db.add(one_task)
+    db.commit()
+    db.refresh(one_task)
     
+    return {"status" : "Updated the Value", "data" : one_task}
+    
+    
+""" To delete Task """
+
+def delete_task(task_id : int, db : Session) :
+    one_task = db.query(TaskModel).get(task_id)
+    if not one_task :
+        raise HTTPException(status_code = 404, detail = "Task not found")
+    db. delete(one_task)
+    db.commit()
+    return {"status" : "Deleted the Task", "data" : one_task}
