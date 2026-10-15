@@ -17,3 +17,5 @@ def create_task(body: TaskSchema, db: Session = Depends(get_db)):
 @task_routes.get("/all_tasks", response_model = TaskListResponseSchema ) 
 def get_all_tasks(db : Session = Depends(get_db)) :
     return controller.get_tasks(db)
+
+@task_routes.get()

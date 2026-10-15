@@ -24,3 +24,8 @@ def create_task(body : TaskSchema, db : Session):
 def get_tasks(db:Session):
     tasks = db.query(TaskModel).all()
     return {"status": "All Tasks", "data" : tasks}
+
+"""to retrieve one task """
+
+def get_one_task(db : Session):
+    
