@@ -18,4 +18,10 @@ def create_task(body: TaskSchema, db: Session = Depends(get_db)):
 def get_all_tasks(db : Session = Depends(get_db)) :
     return controller.get_tasks(db)
 
-@task_routes.get()
+@task_routes.get("/one_task/{task_id}")
+def get_one_task(task_id : int, db : Session = Depends(get_db)) :
+    return controller.get_one_task(task_id, db)
+
+@task_routes.put("/update_task/{task_id}")
+def update_task(body : TaskSchema, task_id = int, db : Session = Depends(get_db)) :
+    return controller.update_task(body, task_id, db)

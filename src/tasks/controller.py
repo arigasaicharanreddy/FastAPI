@@ -27,5 +27,15 @@ def get_tasks(db:Session):
 
 """to retrieve one task """
 
-def get_one_task(db : Session):
+def get_one_task(task_id : int, db:Session):
+    one_task = db.query(TaskModel).get(task_id)
+    if not one_task :
+        return HTTPException
+    return {"status" : "Task Fetched", "data" : one_task}
+    
+    
+def update_task(body : TaskSchema, task_id : int, db : Session) :
+    one_task = db.query(TaskModel).get(task_id)
+    if not one_task :
+        return HTTPException(404)
     
